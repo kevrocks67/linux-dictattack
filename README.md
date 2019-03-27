@@ -6,13 +6,13 @@ by TJ Oconnor.
 The only requirements are to have python 3 installed. This script was tested with python 3.7.2,
 but it should work with older versions of python 3.
 
-Feel free to test the script using the [rockyou dictionary list]() and the provided file named
+Feel free to test the script using the [rockyou dictionary list](https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Leaked-Databases/rockyou-75.txt) and the provided file named
 "shadow".
 
 ## Usage
     USAGE: python3 linux_dict_attack.py -l [--list] <word_list> -f [--file] <hash_file>
 
-    Example: python3 linux_dict_attack.py -l rockyou -f shadow
+    Example: python3 linux_dict_attack.py -l rockyou-75.txt -f shadow
 
 word\_list - A file with different words on each line. If you need a wordlist check out
 [SecLists](https://github.com/danielmiessler/SecLists)
