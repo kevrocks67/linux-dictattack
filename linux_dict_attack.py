@@ -20,7 +20,7 @@ FOUND = {}
 NOTFOUND = {}
 
 # TODO If no crack, give user option to choose another list or exit
-# TODO Allow input and check formatting of input file
+# TODO Check formatting of input file
 
 
 def test_pass(word_list, crypt_pass, user):
@@ -114,28 +114,37 @@ def main(argv):
     """Takes user args and loads the file with the hashed passwords for cracking"""
 
     word_list = ""
+    hash_file = ""
+
     try:
-        opts, argv = getopt.getopt(argv, "hl:", ["list="])
+        opts, argv = getopt.getopt(argv, "hl:f:", ["list=","file="])
     except getopt.GetoptError:
-        print('USAGE: linux-dictAttack.py -l <word_list>')
+        print('USAGE: linux_dict_attack.py -l [--list] <word_list> -f [--file] <hash_file>')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print('USAGE: linux-dictAttack.py -l <word_list> \n')
-            print('You can provide a /etc/shadow file.')
+            print('USAGE: linux_dict_attack.py -l <word_list> -f <hash_file>\n')
+            print('You can provide a copy of a /etc/shadow file.')
             print('Make sure you have removed lines with no hashes\n')
             print('The delimiting character is a colon\n')
             print('If you create your own file, it should contain format user:hash\n')
             sys.exit()
         elif opt in ("-l", "--list"):
             word_list = arg
+        elif opt in ("-f", "--file"):
+            hash_file = arg
 
     if not word_list:
-        print('Please provide a word list')
-        print('USAGE: linux-dictAttack.py -l <word_list>')
+        print('Please provide a word list and hash file\n')
+        print('USAGE: linux_dict_attack.py -l [--list] <word_list> -f [--file] <hash_file>')
         sys.exit()
 
-    with open('shadow') as pass_file:
+    if not hash_file:
+        print('Please provide a word list and hash file\n')
+        print('USAGE: linux_dict_attack.py -l [--list] <word_list> -f [--file] <hash_file>')
+        sys.exit()
+
+    with open(hash_file) as pass_file:
         for line in pass_file.readlines():
             if ":" in line:
                 user = line.split(':')[0]
