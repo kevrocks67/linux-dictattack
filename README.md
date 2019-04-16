@@ -20,6 +20,10 @@ word\_list - A file with different words on each line. If you need a wordlist ch
 hash\_file - A file with hashes on each line. This file can be a /etc/shadow file you copied.
 However, remove any lines which contain users without hashed passwords to prevent errors.
 
+**NOTE** - Hashes must be at least in the format username:hash. If the username is not provided,
+the program will throw errors. If you do not know the username, simply enter a junk value to
+identify the hash.
+
 ## Legal Notice
 The usage of this tool on hashes obtained in an illegal/illicit or otherwise unethical manner
 can lead to serious legal consequences. Obtaining hashes from a computer without the explicit

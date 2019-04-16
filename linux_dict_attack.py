@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """
 Title: Linux Dictionary Attack
 Author: Kevin Diaz
