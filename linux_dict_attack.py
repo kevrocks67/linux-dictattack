@@ -37,7 +37,7 @@ def test_pass(word_list, crypt_pass, user):
     global FOUND
     global NOTFOUND
 
-    salt = crypt_pass
+    salt = crypt_pass.rsplit('$', 1)[0]
 
     # Try user as password
     crypt_word = crypt.crypt(user, salt)
@@ -62,6 +62,7 @@ def test_pass(word_list, crypt_pass, user):
     with open(word_list) as dict_file:
         for word in dict_file.readlines():
             word = word.strip('\n')
+
             crypt_word = crypt.crypt(word, salt)
 
             if crypt_word == crypt_pass:
@@ -119,38 +120,38 @@ def main(argv):
     hash_file = ""
 
     try:
-        opts, argv = getopt.getopt(argv, "hl:f:", ["list=","file="])
+        opts, argv = getopt.getopt(argv, "hw:f:", ["wordlist=", "file="])
     except getopt.GetoptError:
-        print('USAGE: linux_dict_attack.py -l [--list] <word_list> -f [--file] <hash_file>')
+        print('USAGE: linux_dict_attack.py -w [--wordlist] <word_list> -f [--file] <hash_file>')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print('USAGE: linux_dict_attack.py -l <word_list> -f <hash_file>\n')
+            print('USAGE: linux_dict_attack.py -w <word_list> -f <hash_file>\n')
             print('You can provide a copy of a /etc/shadow file.')
             print('Make sure you have removed lines with no hashes\n')
             print('The delimiting character is a colon\n')
             print('If you create your own file, it should contain format user:hash\n')
             sys.exit()
-        elif opt in ("-l", "--list"):
+        elif opt in ("-w", "--wordlist"):
             word_list = arg
         elif opt in ("-f", "--file"):
             hash_file = arg
 
     if not word_list:
         print('Please provide a word list and hash file\n')
-        print('USAGE: linux_dict_attack.py -l [--list] <word_list> -f [--file] <hash_file>')
+        print('USAGE: linux_dict_attack.py -w [--wordlist] <word_list> -f [--file] <hash_file>')
         sys.exit()
 
     if not hash_file:
         print('Please provide a word list and hash file\n')
-        print('USAGE: linux_dict_attack.py -l [--list] <word_list> -f [--file] <hash_file>')
+        print('USAGE: linux_dict_attack.py -w [--wordlist] <word_list> -f [--file] <hash_file>')
         sys.exit()
 
     with open(hash_file) as pass_file:
         for line in pass_file.readlines():
             if ":" in line:
                 user = line.split(':')[0]
-                crypt_pass = line.split(':')[1].strip(' ')
+                crypt_pass = line.split(':')[1].strip(' ').strip('\n')
                 print("[*]Cracking password for: "+user)
                 origin_time = time.time()
                 test_pass(word_list, crypt_pass, user)
@@ -160,4 +161,8 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    try:
+        main(sys.argv[1:])
+    except KeyboardInterrupt:
+        print()
+        sys.exit(1)

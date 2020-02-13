@@ -10,9 +10,9 @@ Feel free to test the script using the [rockyou dictionary list](https://raw.git
 "shadow".
 
 ## Usage
-    USAGE: python3 linux_dict_attack.py -l [--list] <word_list> -f [--file] <hash_file>
+    USAGE: python3 linux_dict_attack.py -w [--wordlist] <word_list> -f [--file] <hash_file>
 
-    Example: python3 linux_dict_attack.py -l rockyou-75.txt -f shadow
+    Example: python3 linux_dict_attack.py -w rockyou-75.txt -f shadow
 
 word\_list - A file with different words on each line. If you need a wordlist check out
 [SecLists](https://github.com/danielmiessler/SecLists)
